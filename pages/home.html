@@ -9,7 +9,7 @@
 </div>
 
 
-<div class="row-fluid">
+<div class="row-fluid" ng-hide="new-open-game">
   <div class="span12 well">
     <form ng-submit="addOpengame()">
       <button type="submit"  class="btn btn-primary">Start a new Game</button>
@@ -19,14 +19,11 @@
 
 <div class="row-fluid">
   <div class="span12 well" ng-show="opengames" ng-cloak>
-    <ul id="word-list">
+    <ul id="player-list">
       <li ng-repeat="opengame in opengames">
         <div class="view">
-            <label>Play with {{opengame.player}}</label>
+           <label>Play with {{opengame.player}}</label>
         </div>
-        <!--form ng-submit="doneEditing(id)">
-          <input class="edit" ng-model="todo.title" todo-escape="revertEditing(id)" todo-blur="doneEditing(id)" todo-focus="todo == editedTodo">
-        </form -->
       </li>
     </ul>
   </div>

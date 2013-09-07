@@ -33,6 +33,8 @@ wordApp.controller('GameCtrl', function GameCtrl($scope, $location, Game, angula
     $scope.opengames[opengamesRef.push().name()] = {
         player: $scope.user.name
     };
+
+    $scope.new-open-game = "true";
   };
 
 
