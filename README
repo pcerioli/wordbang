@@ -1,0 +1,8 @@
+Install Node and then Connect to run the code locally
+
+
+$ npm install connect
+
+then run:
+
+$ node server.js

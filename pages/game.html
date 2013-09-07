@@ -1,0 +1,37 @@
+
+
+<div class="row-fluid">
+  <div class="span12 well">
+    <form ng-submit="addUsername()">
+      <input placeholder="Your username" ng-model="user.name" autofocus>
+    </form>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span12 well">
+    <form ng-submit="addWord()" >
+      <input placeholder="Type a word" ng-model="newWord" autofocus>
+      <span ng-show="newWord.$error.duplicate">Word does already exist!</span>
+    </form>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span12 well" ng-show="words" ng-cloak>
+    <ul id="word-list">
+      <li ng-repeat="word in words">
+        <div class="view">
+          <label>{{word.content}} ({{word.username}})</label>
+          
+        </div>
+        <!--form ng-submit="doneEditing(id)">
+          <input class="edit" ng-model="todo.title" todo-escape="revertEditing(id)" todo-blur="doneEditing(id)" todo-focus="todo == editedTodo">
+        </form -->
+      </li>
+    </ul>
+    
+
+  </div>
+
+</div>
