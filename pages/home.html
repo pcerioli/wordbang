@@ -2,48 +2,31 @@
 
 <div class="row-fluid">
   <div class="span12 well">
-    <form>
-      <input placeholder="Your username" ng-model="user.name" autofocus>
-    </form>
-  </div>
+    <label for="">Your name: </label> <input id="name" type="text" ng-model="username">
+   </div>
 </div>
 
-
-<div class="row-fluid" id="can-start">
+<p></p>
+<div class="row-fluid">
   <div class="span12 well">
-    <form ng-submit="addOpengame()">
-      <button type="submit"  class="btn btn-primary">Start a new Game</button>
+    Type words starting with {{ letters }}
+  </div>
+</div>
+
+
+<p></p>
+<div class="row-fluid">
+  <div class="span12 well">
+    <div id="messagesDiv" auto-scroll="words" style="height:300px;">
+      <div ng-cloak ng-repeat="word in words">
+        <em>{{word.from}}: </em>{{word.content}}
+      </div>
+    </div>
+    <form ng-submit="addWord()">
+      <input id="newWord" type="text" ng-model="newWord" placeholder="Your word...">
+      <input id="send" type="submit" id="submit" value="Send" class="btn btn-primary">
     </form>
   </div>
 </div>
 
-<div class="row-fluid">
-  <div class="span12 well" ng-show="opengames" ng-cloak>
-    <ul id="player-list">
-      <li ng-repeat="opengame in opengames">
-        <div class="view">
-           <label><button ng-click="addGame(opengame, user.name)">Play with {{opengame.player}}</button></label>
-          <button ng-click="deleteOpengame(opengame)">Delete</button>
-        </div>
-      </li>
-    </ul>
-  </div>
-</div>
 
-
-
-<div class="row-fluid">
-  <div class="span12 well" ng-show="words" ng-cloak>
-    <ul id="word-list">
-      <li ng-repeat="word in words">
-        <div class="view">
-          <label>{{word.content}} ({{word.username}})</label>
-          
-        </div>
-        <!--form ng-submit="doneEditing(id)">
-          <input class="edit" ng-model="todo.title" todo-escape="revertEditing(id)" todo-blur="doneEditing(id)" todo-focus="todo == editedTodo">
-        </form -->
-      </li>
-    </ul>
-  </div>
-</div>
