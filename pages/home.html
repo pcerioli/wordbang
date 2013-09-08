@@ -19,7 +19,11 @@
   <div class="span12 well">
     <div id="messagesDiv" auto-scroll="words" style="height:300px;">
       <div ng-cloak ng-repeat="word in words">
-        <em>{{word.from}}: </em>{{word.content}}
+
+          <em>{{word.from}}:
+          </em>{{word.content}}
+          <span class="badge pull-right">{{ word.points }}</span>
+
       </div>
     </div>
     <form ng-submit="addWord()">

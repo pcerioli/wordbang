@@ -10,10 +10,22 @@ wordApp.controller('SplashCtrl', ['$scope', '$timeout', 'angularFireCollection',
 
     $scope.letters = "A";
 
+    $scope.deleteAll = function() {
+      var allWords = new Firebase('https://word-gaming.firebaseIO-demo.com/words/');
+      allWords.remove();
+    }
+
     $scope.addWord = function() {
       if ($scope.newWord != null) {
-        $scope.words.add({from: $scope.username, content: $scope.newWord});
-        $scope.newWord = "";
+        $scope.newWord = $scope.newWord.toUpperCase();
+        if ($scope.newWord.indexOf("A") == 0) {
+          $scope.words.add({
+            from: $scope.username,
+            content: $scope.newWord,
+            points: $scope.newWord.length
+          });
+          $scope.newWord = "";
+        }
       }
     }
 
