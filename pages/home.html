@@ -22,7 +22,8 @@
     <ul id="player-list">
       <li ng-repeat="opengame in opengames">
         <div class="view">
-           <label><a ng-href="/game/{{opengame.name}}">{{ opengame.name }} Play with {{opengame.player}}</a></label>
+           <label><button ng-click="addGame(opengame, user.name)">Play with {{opengame.player}}</button></label>
+          <button ng-click="deleteOpengame(opengame)">Delete</button>
         </div>
       </li>
     </ul>
