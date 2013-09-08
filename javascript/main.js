@@ -7,6 +7,7 @@ wordApp.controller('SplashCtrl', ['$scope', '$timeout', 'angularFireCollection',
 
     $scope.username = 'Guest' + Math.floor(Math.random()*101);
 
+    $scope.usedWords = [];
 
     $scope.letters = "A";
 
@@ -23,13 +24,18 @@ wordApp.controller('SplashCtrl', ['$scope', '$timeout', 'angularFireCollection',
         $scope.validWord = "";
         //console.log("A words = " +keys);
 
+        console.log("usedWords = " + $scope.usedWords);
+
         if ($scope.newWord.indexOf("A") == 0) {
-          if (keys.indexOf($scope.newWord) != -1) {
+          if (keys.indexOf($scope.newWord) != -1 && $scope.usedWords.indexOf($scope.newWord) == -1) {
+
             $scope.words.add({
               from: $scope.username,
               content: $scope.newWord,
               points: $scope.newWord.length
             });
+            $scope.usedWords.push($scope.newWord);
+
             $scope.newWord = "";
           } else {
             $scope.validWord = "invalid";
