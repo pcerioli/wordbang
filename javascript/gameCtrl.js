@@ -17,6 +17,8 @@ wordApp.controller('GameCtrl', function GameCtrl($scope, $location, Game, angula
   //$scope.username = 'paola';
   $scope.user = {};
 
+
+
   //$scope.existingWords = ['test'];
 
 //  $scope.addGame = function() {
@@ -34,7 +36,7 @@ wordApp.controller('GameCtrl', function GameCtrl($scope, $location, Game, angula
         player: $scope.user.name
     };
 
-    $scope.new-open-game = "true";
+    $scope.user.can-start = "no";
   };
 
 
