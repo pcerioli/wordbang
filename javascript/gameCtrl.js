@@ -21,13 +21,13 @@ wordApp.controller('GameCtrl', function GameCtrl($scope, $location, Game, angula
 
   //$scope.existingWords = ['test'];
 
-//  $scope.addGame = function() {
-//
-//    $scope.games[gamesRef.push().name()] = {
-//      player: $scope.username
-//    };
-//    $location.path( "/game" );
-//  };
+  $scope.addGame = function() {
+
+    $scope.games[gamesRef.push().name()] = {
+      player: $scope.username
+    };
+    $location.path( "/game" );
+  };
 
   $scope.addOpengame = function() {
     console.log("username = " + $scope.user.name);
@@ -36,7 +36,7 @@ wordApp.controller('GameCtrl', function GameCtrl($scope, $location, Game, angula
         player: $scope.user.name
     };
 
-    $scope.user.can-start = "no";
+    $('#can-start').hide();
   };
 
 
