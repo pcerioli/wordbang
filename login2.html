@@ -14,7 +14,7 @@
 
 
         <script>
-
+        function go(){
             window._userName=null;
             window._userId=null;
             _userPhoto=null;
@@ -27,20 +27,14 @@
                 } else if (user) {
 
 
-                    //var userRef = new Firebase('https://word-gaming.firebaseio.com/users/'+user.id+'/');
-                    //userRef.once('value', function(snapshot) {
-                        //if(snapshot.val() === null) {
+                    var userRef = new Firebase('https://word-gaming.firebaseio.com/users/'+user.id+'/');
+                    userRef.once('value', function(snapshot) {
+                        if(snapshot.val() === null) {
 
                             //store user
 
 
-                             var USERS_LOCATION = 'https://word-gaming.firebaseio.com/users/';
-                             var userId = user.id;
-                             var userData = { name: userId, james: 'hello' };
 
-                             var usersRef = new Firebase(USERS_LOCATION);
-
-                            tryCreateUser(userId, userData,usersRef);
 
 
 
@@ -61,6 +55,11 @@
 
                                 console.log("photo_url;: " + data.picture.data.url);
 
+
+                                document.getElementById("image").innerHTML="<img src='" +  data.picture.data.url+"'>";
+
+                                document.getElementById("userName").innerHTML=user.displayName;
+
                                 var newUserRef = new Firebase('https://word-gaming.firebaseio.com/users/');
                                  //passing useri
                                 newUserRef.set(user.id);
@@ -79,27 +78,21 @@
 
 
 
-                       // } else {
+                        } //else {
                         //    var firstName = snapshot.val().name.first;
                        //////     var lastName = snapshot.val().name.last;
                         //    alert('User julie’s full name is: ' + firstName + ' ' + lastName);
                        // }
-                    //});
-
-
-                    var myUserRef = new Firebase('https://word-gaming.firebaseio.com/');
-
-                    window._userName = user.displayName;
-                    window._userId =  user.id;
+                    });
 
 
 
-                    alert('User ID: ' + user.id + ', Provider: ' + user.provider + ' user name, '+ user.displayName + ", acess token " + user.accessToken);
-
-                    /*$.getJSON('https://graph.facebook.com/'+ user.id +'/likes?access_token='+user.accessToken+'', function(data) {
 
 
-                    });    */
+
+
+                    //alert('User ID: ' + user.id + ', Provider: ' + user.provider + ' user name, '+ user.displayName + ", acess token " + user.accessToken);
+
 
                      var get_url='https://graph.facebook.com/'+ user.id +'/?fields=picture&access_token='+user.accessToken;
 
@@ -116,19 +109,6 @@
 
 
 
-                         /*
-                        $.each(data, function(key, val) {
-                            items.push('<li id="' + key + '">' + val + '</li>');
-
-                            console.log("Data Loaded: " + key + " value " + val);
-                        });
-
-                        $('<ul/>', {
-                            'class': 'my-new-list',
-                            html: items.join('')
-                        }).appendTo('body');
-
-                        */
                     });
                 } else {
                     // user is logged out
@@ -145,41 +125,78 @@
             })
 
 
-            function userCreated(userId, success) {
-                if (!success) {
-                    alert('user ' + userId + ' already exists!');
-                } else {
-                    alert('Successfully created ' + userId);
+
+
+            //console.log("all param;: " +  window._userName + " " + window._userId + " " + _userPhoto);
+        }
+        </script>
+
+        <script>
+
+            var count=5;
+
+            function startCounter(){
+
+                count =5;
+
+                //alert('startC_ounter')
+                var counter=setInterval(timer, 1000); //1000 will  run it every 1 second
+
+
+
+
+            }
+
+            function timer()
+            {
+                count=count-1;
+                if (count <= 0)
+                {
+                    clearInterval(counter);
+                    document.getElementById("counter").innerHTML='Type Fast! Game Started. ';
+
+                    gameStarted();
+                    return;
                 }
+
+                document.getElementById("counter").innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp"+count; // watch for spelling
             }
 
-            // Tries to set /users/<userId> to the specified data, but only
-            // if there's no data there already.
-            function tryCreateUser(userId, userData,usersRef) {
-                  console.log("try create user " + userId + " " + userData)
-                usersRef.child(userId).transaction(function(currentUserData) {
-                    if (currentUserData === null) {
+             var gameTime =10;
 
-                        console.log("curret data is null " );
-                        return userData;
+            function gameStarted(){
 
-                    }
-                }, function(error, committed) {
 
-                    console.log("error " + error)
-                    userCreated(userId, committed);
-                });
+                gameTime =10;
+
+                gameCounter=setInterval(gameTimer, 1000);
+
+
+
             }
 
-            console.log("all param;: " +  window._userName + " " + window._userId + " " + _userPhoto);
+            function gameTimer()
+            {
+                gameTime=gameTime-1;
+                if (gameTime <= 0)
+                {
+                    clearInterval(gameCounter);
+                    document.getElementById("counter").innerHTML='GAME OVER';
+                    return;
+                }
+
+                document.getElementById("counter").innerHTML='Time left: ' + gameTime; // watch for spelling
+            }
         </script>
     </head>
 
 
-<body >
+<body onload="go()">
 
-<input type="button" onclick="startCounter">
-<span id ="counter" style="font-size: 50"></span>
+<div id="image"></div>  <div id="userName"></div>
+
+<input type="button" onclick="startCounter()" value="Start game" />
+    <span id ="counter" style="font-size: 80;position:absolute;right:10px;top:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5</span>
 
 
 </body>
