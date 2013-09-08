@@ -20,7 +20,7 @@ wordApp.controller('SplashCtrl', ['$scope', '$timeout', 'angularFireCollection',
         $scope.newWord = $scope.newWord.toUpperCase();
 
         var keys = Object.keys(word_array_A);
-
+        $scope.validWord = "";
         //console.log("A words = " +keys);
 
         if ($scope.newWord.indexOf("A") == 0) {
@@ -31,8 +31,16 @@ wordApp.controller('SplashCtrl', ['$scope', '$timeout', 'angularFireCollection',
               points: $scope.newWord.length
             });
             $scope.newWord = "";
+          } else {
+            $scope.validWord = "invalid";
           }
+        } else {
+          $scope.validWord = "invalid";
         }
+      }
+      if ($scope.validWord == "invalid") {
+        $('#invalidAlert').show().fadeOut(2000);
+        //$('#invalidAlert').hide();
       }
     }
 

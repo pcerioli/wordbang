@@ -27,6 +27,7 @@
       </div>
     </div>
     <form ng-submit="addWord()">
+      <div id="invalidAlert" class="alert alert-danger" ng-show="validWord">{{ newWord }} is invalid</div>
       <input id="newWord" type="text" ng-model="newWord" placeholder="Your word...">
       <input id="send" type="submit" id="submit" value="Send" class="btn btn-primary">
     </form>
