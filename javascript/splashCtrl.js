@@ -1,21 +1,21 @@
-wordApp.controller('GameCtrl', function GameCtrl($scope, $location, Game, angularFire) {
+wordApp.controller('SplashCtrl', function SplashCtrl($scope, $location, Game, angularFire) {
 
   //var url = 'https://word-gaming.firebaseio.com/';
-  var fbUrl = 'https://word-gaming.firebaseio.com/' ;
-  var dbRef = new Firebase(fbUrl);
+//  var fbUrl = 'https://word-gaming.firebaseio.com/' ;
+  var dbRef = new Firebase( 'https://word-gaming.firebaseio.com/' );
   //var dbRef = new Firebase('https://wordbang.firebaseio.com/');
 
   //var wordsRef = dbRef.child('words');
   var gamesRef = dbRef.child('games');
-  var opengamesRef = dbRef.child('opengames');
+  //var opengamesRef = dbRef.child('opengames');
 
   //angularFire(wordsRef.limit(10), $scope, "words");
-  angularFire(gamesRef.limit(10), $scope, "games", {});
+  angularFire(gamesRef, $scope, "games", []);
 
 
 
 
-  angularFire(opengamesRef, $scope, "opengames", {});
+  //angularFire(opengamesRef, $scope, "opengames", []);
 
 //  angularFire(opengamesRef, $scope, "opengames", {}).then(function() {
 //    $scope.showOpengames = true;
@@ -26,23 +26,26 @@ wordApp.controller('GameCtrl', function GameCtrl($scope, $location, Game, angula
   //$scope.username = 'paola';
   $scope.user = {};
 
-  //console.log("opengames = " + opengames);
+
+  console.log("games = " + $scope.games);
 
 
   //$scope.existingWords = ['test'];
 
-  $scope.addGame = function(opengame, username) {
 
-    console.log("username = " + $scope.user.name);
-    console.log("opengame = " + opengame);
+  $scope.login = function() {
+    localStorage("player") = $scope.user.name;
+  }
+
+
+  $scope.createGame = function() {
 
     $scope.games[gamesRef.push().name()] = {
       //player: $scope.username
-      player1: opengame.player,
-      player2: $scope.user.name
-
+      player1: $scope.user.name,
+      started: "pending"
     };
-    $location.path( "/game/" + opengame.id );
+    $location.path( "/game/" + game.id );
     $scope.deleteOpengame(opengame);
 
   };
