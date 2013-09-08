@@ -18,13 +18,20 @@ wordApp.controller('SplashCtrl', ['$scope', '$timeout', 'angularFireCollection',
     $scope.addWord = function() {
       if ($scope.newWord != null) {
         $scope.newWord = $scope.newWord.toUpperCase();
+
+        var keys = Object.keys(word_array_A);
+
+        //console.log("A words = " +keys);
+
         if ($scope.newWord.indexOf("A") == 0) {
-          $scope.words.add({
-            from: $scope.username,
-            content: $scope.newWord,
-            points: $scope.newWord.length
-          });
-          $scope.newWord = "";
+          if (keys.indexOf($scope.newWord) != -1) {
+            $scope.words.add({
+              from: $scope.username,
+              content: $scope.newWord,
+              points: $scope.newWord.length
+            });
+            $scope.newWord = "";
+          }
         }
       }
     }
