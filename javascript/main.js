@@ -8,7 +8,7 @@ wordApp.controller('SplashCtrl', ['$scope', '$timeout', 'angularFireCollection',
     $scope.username = 'Guest' + Math.floor(Math.random()*101);
 
 
-    $scope.letters = "AL";
+    $scope.letters = "A";
 
     $scope.addWord = function() {
       if ($scope.newWord != null) {
