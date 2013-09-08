@@ -1,0 +1,187 @@
+<html>
+    <head>
+
+        <script type='text/javascript'
+                src='https://cdn.firebase.com/v0/firebase.js'>
+        </script>
+
+        <script type='text/javascript'
+                src='https://cdn.firebase.com/v0/firebase-simple-login.js'>
+        </script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+        <script>
+
+            window._userName=null;
+            window._userId=null;
+            _userPhoto=null;
+
+            var chatRef = new Firebase('https://word-gaming.firebaseio.com');
+            var auth = new FirebaseSimpleLogin(chatRef, function(error, user) {
+                if (error) {
+                    // an error occurred while attempting login
+                    alert(error);
+                } else if (user) {
+
+
+                    //var userRef = new Firebase('https://word-gaming.firebaseio.com/users/'+user.id+'/');
+                    //userRef.once('value', function(snapshot) {
+                        //if(snapshot.val() === null) {
+
+                            //store user
+
+
+                             var USERS_LOCATION = 'https://word-gaming.firebaseio.com/users/';
+                             var userId = user.id;
+                             var userData = { name: userId, james: 'hello' };
+
+                             var usersRef = new Firebase(USERS_LOCATION);
+
+                            tryCreateUser(userId, userData,usersRef);
+
+
+
+
+
+
+
+
+
+                            var get_url='https://graph.facebook.com/'+ user.id +'/?fields=picture&access_token='+user.accessToken;
+
+                            console.log("get_url: " + get_url);
+
+                            $.getJSON(get_url, function(data) {
+                                var items = [];
+
+                                _userPhoto = data.picture.data.url;
+
+                                console.log("photo_url;: " + data.picture.data.url);
+
+                                var newUserRef = new Firebase('https://word-gaming.firebaseio.com/users/');
+                                 //passing useri
+                                newUserRef.set(user.id);
+
+                                //:{username : user.displayName , photo : data.picture.data.url} });
+
+
+
+
+                            });
+
+
+
+
+
+
+
+
+                       // } else {
+                        //    var firstName = snapshot.val().name.first;
+                       //////     var lastName = snapshot.val().name.last;
+                        //    alert('User julie’s full name is: ' + firstName + ' ' + lastName);
+                       // }
+                    //});
+
+
+                    var myUserRef = new Firebase('https://word-gaming.firebaseio.com/');
+
+                    window._userName = user.displayName;
+                    window._userId =  user.id;
+
+
+
+                    alert('User ID: ' + user.id + ', Provider: ' + user.provider + ' user name, '+ user.displayName + ", acess token " + user.accessToken);
+
+                    /*$.getJSON('https://graph.facebook.com/'+ user.id +'/likes?access_token='+user.accessToken+'', function(data) {
+
+
+                    });    */
+
+                     var get_url='https://graph.facebook.com/'+ user.id +'/?fields=picture&access_token='+user.accessToken;
+
+                    console.log("get_ur;: " + get_url);
+
+                    $.getJSON(get_url, function(data) {
+
+
+                        _userPhoto = data.picture.data.url;
+
+                        console.log("photo_url;: " + data.picture.data.url);
+
+
+
+
+
+                         /*
+                        $.each(data, function(key, val) {
+                            items.push('<li id="' + key + '">' + val + '</li>');
+
+                            console.log("Data Loaded: " + key + " value " + val);
+                        });
+
+                        $('<ul/>', {
+                            'class': 'my-new-list',
+                            html: items.join('')
+                        }).appendTo('body');
+
+                        */
+                    });
+                } else {
+                    // user is logged out
+                }
+            });
+
+
+
+
+            // attempt to log the user in with your preferred authentication provider
+            auth.login('facebook', {
+                rememberMe: true,
+                scope: 'email,user_likes,user_photos'
+            })
+
+
+            function userCreated(userId, success) {
+                if (!success) {
+                    alert('user ' + userId + ' already exists!');
+                } else {
+                    alert('Successfully created ' + userId);
+                }
+            }
+
+            // Tries to set /users/<userId> to the specified data, but only
+            // if there's no data there already.
+            function tryCreateUser(userId, userData,usersRef) {
+                  console.log("try create user " + userId + " " + userData)
+                usersRef.child(userId).transaction(function(currentUserData) {
+                    if (currentUserData === null) {
+
+                        console.log("curret data is null " );
+                        return userData;
+
+                    }
+                }, function(error, committed) {
+
+                    console.log("error " + error)
+                    userCreated(userId, committed);
+                });
+            }
+
+            console.log("all param;: " +  window._userName + " " + window._userId + " " + _userPhoto);
+        </script>
+    </head>
+
+
+<body >
+
+<input type="button" onclick="startCounter">
+<span id ="counter" style="font-size: 50"></span>
+
+
+</body>
+
+</html>

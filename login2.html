@@ -1,0 +1,204 @@
+<html>
+    <head>
+
+        <script type='text/javascript'
+                src='https://cdn.firebase.com/v0/firebase.js'>
+        </script>
+
+        <script type='text/javascript'
+                src='https://cdn.firebase.com/v0/firebase-simple-login.js'>
+        </script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+        <script>
+        function go(){
+            window._userName=null;
+            window._userId=null;
+            _userPhoto=null;
+
+            var chatRef = new Firebase('https://word-gaming.firebaseio.com');
+            var auth = new FirebaseSimpleLogin(chatRef, function(error, user) {
+                if (error) {
+                    // an error occurred while attempting login
+                    alert(error);
+                } else if (user) {
+
+
+                    var userRef = new Firebase('https://word-gaming.firebaseio.com/users/'+user.id+'/');
+                    userRef.once('value', function(snapshot) {
+                        if(snapshot.val() === null) {
+
+                            //store user
+
+
+
+
+
+
+
+
+
+
+
+
+                            var get_url='https://graph.facebook.com/'+ user.id +'/?fields=picture&access_token='+user.accessToken;
+
+                            console.log("get_url: " + get_url);
+
+                            $.getJSON(get_url, function(data) {
+                                var items = [];
+
+                                _userPhoto = data.picture.data.url;
+
+                                console.log("photo_url;: " + data.picture.data.url);
+
+
+                                document.getElementById("image").innerHTML="<img src='" +  data.picture.data.url+"'>";
+
+                                document.getElementById("userName").innerHTML=user.displayName;
+
+                                var newUserRef = new Firebase('https://word-gaming.firebaseio.com/users/');
+                                 //passing useri
+                                newUserRef.set(user.id);
+
+                                //:{username : user.displayName , photo : data.picture.data.url} });
+
+
+
+
+                            });
+
+
+
+
+
+
+
+
+                        } //else {
+                        //    var firstName = snapshot.val().name.first;
+                       //////     var lastName = snapshot.val().name.last;
+                        //    alert('User julie’s full name is: ' + firstName + ' ' + lastName);
+                       // }
+                    });
+
+
+
+
+
+
+
+                    //alert('User ID: ' + user.id + ', Provider: ' + user.provider + ' user name, '+ user.displayName + ", acess token " + user.accessToken);
+
+
+                     var get_url='https://graph.facebook.com/'+ user.id +'/?fields=picture&access_token='+user.accessToken;
+
+                    console.log("get_ur;: " + get_url);
+
+                    $.getJSON(get_url, function(data) {
+
+
+                        _userPhoto = data.picture.data.url;
+
+                        console.log("photo_url;: " + data.picture.data.url);
+
+
+
+
+
+                    });
+                } else {
+                    // user is logged out
+                }
+            });
+
+
+
+
+            // attempt to log the user in with your preferred authentication provider
+            auth.login('facebook', {
+                rememberMe: true,
+                scope: 'email,user_likes,user_photos'
+            })
+
+
+
+
+            //console.log("all param;: " +  window._userName + " " + window._userId + " " + _userPhoto);
+        }
+        </script>
+
+        <script>
+
+            var count=5;
+
+            function startCounter(){
+
+                count =5;
+
+                //alert('startC_ounter')
+                var counter=setInterval(timer, 1000); //1000 will  run it every 1 second
+
+
+
+
+            }
+
+            function timer()
+            {
+                count=count-1;
+                if (count <= 0)
+                {
+                    clearInterval(counter);
+                    document.getElementById("counter").innerHTML='Type Fast! Game Started. ';
+
+                    gameStarted();
+                    return;
+                }
+
+                document.getElementById("counter").innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp"+count; // watch for spelling
+            }
+
+             var gameTime =10;
+
+            function gameStarted(){
+
+
+                gameTime =10;
+
+                gameCounter=setInterval(gameTimer, 1000);
+
+
+
+            }
+
+            function gameTimer()
+            {
+                gameTime=gameTime-1;
+                if (gameTime <= 0)
+                {
+                    clearInterval(gameCounter);
+                    document.getElementById("counter").innerHTML='GAME OVER';
+                    return;
+                }
+
+                document.getElementById("counter").innerHTML='Time left: ' + gameTime; // watch for spelling
+            }
+        </script>
+    </head>
+
+
+<body onload="go()">
+
+<div id="image"></div>  <div id="userName"></div>
+
+<input type="button" onclick="startCounter()" value="Start game" />
+    <span id ="counter" style="font-size: 80;position:absolute;right:10px;top:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5</span>
+
+
+</body>
+
+</html>
